@@ -4,7 +4,7 @@ from io import BytesIO
 from pypdf import PdfReader
 from bs4 import BeautifulSoup
 from datetime import datetime
-
+import json
 def date_parser(date_string):
     cleaned_date_str = date_string[2:-1]
     parsed_date = datetime.strptime(cleaned_date_str, '%Y%m%d%H%M%S')
@@ -46,6 +46,7 @@ def get_papers():
         if line.find("http") != -1:
             links.append(extract_url(line))
     f = open("demofile2.txt", "w", encoding="utf-8")
+    values = []
     for link in links:
         if link.find("arxiv") != -1:
             if link.find("pdf") != -1:
@@ -60,9 +61,14 @@ def get_papers():
                     text = page.extract_text()
                     lowered_text = text.lower()
                     text = extract_abstract_to_intro(lowered_text)
-                    f.write(f'[{reader.metadata.creation_date.date()}] {text}')
-                    f.write("\n")
-                    f.write("\n")
+                    value = {
+                        "date" : reader.metadata.creation_date.date(),
+                        "abstract": text
+                    }
+                    values.append(value)
+                    # f.write(f'[{reader.metadata.creation_date.date()}] {text}')
+                    # f.write("\n")
+                    # f.write("\n")
                 except Exception as error:
                     # handle the exception
                     print("An exception occurred:", error, link) 
@@ -71,11 +77,18 @@ def get_papers():
                 soup = BeautifulSoup(paper.text, 'html.parser')
                 abstract = soup.find("meta", property="og:description")
                 meta_tag = soup.find('meta', attrs={'name': 'citation_date'})
-                f.write(f'[{datetime.strptime(meta_tag["content"], "%Y/%m/%d").date()}] {abstract["content"]}')
-                f.write("\n")
-                f.write("\n")
-            # break
-            ## found valid arxiv
+                value = {
+                        "date" : datetime.strptime(meta_tag["content"], "%Y/%m/%d").date(),
+                        "abstract": abstract["content"]
+                    }
+                values.append(value)
+                # f.write(f'[{datetime.strptime(meta_tag["content"], "%Y/%m/%d").date()}] {abstract["content"]}')
+                # f.write("\n")
+                # f.write("\n")
+    write_to = {
+        "data": values
+    }
+    f.write(json.dumps(write_to, default=str))
     f.close()
     return
 
