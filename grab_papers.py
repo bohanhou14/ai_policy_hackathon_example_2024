@@ -1,6 +1,7 @@
 import requests
 import re
 from io import BytesIO
+from tqdm import tqdm
 from pypdf import PdfReader
 from bs4 import BeautifulSoup
 from datetime import datetime
@@ -46,7 +47,7 @@ def get_papers():
         if line.find("http") != -1:
             links.append(extract_url(line))
     f = open("demofile2.txt", "w", encoding="utf-8")
-    for link in links:
+    for link in tqdm(links, desc="Crawling papers"):
         if link.find("arxiv") != -1:
             if link.find("pdf") != -1:
                 paper = requests.get(link)
@@ -79,4 +80,5 @@ def get_papers():
     f.close()
     return
 
-get_papers()
+if __name__ == "__main__":
+    get_papers()
