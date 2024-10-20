@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="https://designer.igniteui.com/packages/bootstrap/bootstrap.min.css">
+		<link rel="stylesheet" href="https://designer.igniteui.com/css/themes/infragistics/infragistics.theme.css">
+		<link rel="stylesheet" href="https://designer.igniteui.com/css/structure/infragistics.css">
+		<!--
+			Update the Ignite UI script references to your licensed copies before deploying.
+			Ignite UI License: https://www.infragistics.com/legal/license/ultimate/
+		-->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+	</head>
+	<body>
+		<div id="container1"><h1 id="heading1" contenteditable="true" data-lib="html" data-type="heading" data-title="Heading" class="ig-component" style="text-align:center">Hackathon Example: Paper Clustering<br></h1></div class="text-align:center" style="text-align:center">
+		<div id="container2" class="flex " style="display: flex; justify-content: center; max-height: 925px">
+		    <canvas id="myChart"></canvas>
+			</div>
+		<div id="container3" style="flex; justify-content: center">
+			<div id="container4" style="w-1/2">
+			    
+				<p id="text1" style="text-align:center">Trademarked: TPS.</p>
+		</div>
+		</div>
+
+	</body>
+	<script>
+ 
+		const ctx = document.getElementById('myChart');
+ 
+const data = {
+  labels: [
+    "Ethics",
+    "Regulation",
+    "Safety",
+    "Privacy",
+    "Security",
+    "Fairness",
+    "Governance"
+  ],
+  datasets: [
+    {
+      label: '2022-05',
+      data: [10, 15, 7, 0, 2, 5, 3], // Values for May 2022
+      borderWidth: 1
+    },
+    {
+      label: '2022-06',
+      data: [15, 8, 6, 3, 0, 1, 2], // Values for June 2022
+      borderWidth: 1
+    },
+    {
+      label: '2022-07',
+      data: [7, 12, 10, 8, 9, 0, 5], // Values for July 2022
+      borderWidth: 1
+    },
+    {
+      label: '2022-08',
+      data: [0, 3, 14, 0, 13, 10, 0], // Values for August 2022
+      borderWidth: 1
+    },
+    {
+      label: '2022-09',
+      data: [2, 0, 3, 6, 4, 5, 11], // Values for September 2022
+      borderWidth: 1
+    },
+    {
+      label: '2022-10',
+      data: [5, 7, 5, 11, 5, 12, 7], // Values for October 2022
+      borderWidth: 1
+    },
+    {
+      label: '2022-11',
+      data: [3, 11, 12, 5, 1, 2, 8], // Values for November 2022
+      borderWidth: 1
+    },
+    {
+      label: '2022-12',
+      data: [9, 4, 1, 2, 11, 8, 6], // Values for December 2022
+      borderWidth: 1
+    },
+    {
+      label: '2023-01',
+      data: [4, 10, 7, 12, 6, 14, 10], // Values for January 2023
+      borderWidth: 1
+    },
+    {
+      label: '2023-02',
+      data: [12, 2, 4, 9, 8, 3, 12], // Values for February 2023
+      borderWidth: 1
+    },
+    {
+      label: '2023-03',
+      data: [1, 15, 2, 1, 3, 6, 4], // Values for March 2023
+      borderWidth: 1
+    },
+    {
+      label: '2023-04',
+      data: [6, 6, 8, 7, 12, 9, 14], // Values for April 2023
+      borderWidth: 1
+    },
+    {
+      label: '2023-05',
+      data: [10, 5, 15, 10, 12, 7, 8], // Values for May 2023
+      borderWidth: 1
+    },
+    {
+      label: '2023-06',
+      data: [5, 7, 11, 14, 6, 9, 10], // Values for June 2023
+      borderWidth: 1
+    },
+    {
+      label: '2023-07',
+      data: [8, 4, 3, 12, 8, 11, 5], // Values for July 2023
+      borderWidth: 1
+    },
+    {
+      label: '2023-08',
+      data: [14, 2, 5, 9, 11, 4, 7], // Values for August 2023
+      borderWidth: 1
+    },
+    {
+      label: '2023-09',
+      data: [9, 8, 11, 4, 3, 2, 1], // Values for September 2023
+      borderWidth: 1
+    },
+    {
+      label: '2023-10',
+      data: [6, 3, 12, 7, 8, 9, 10], // Values for October 2023
+      borderWidth: 1
+    },
+    {
+      label: '2023-11',
+      data: [3, 6, 9, 11, 12, 15, 8], // Values for November 2023
+      borderWidth: 1
+    },
+    {
+      label: '2023-12',
+      data: [2, 4, 8, 5, 6, 10, 3], // Values for December 2023
+      borderWidth: 1
+    },
+    {
+      label: '2024-01',
+      data: [4, 11, 12, 3, 7, 5, 8], // Values for January 2024
+      borderWidth: 1
+    },
+    {
+      label: '2024-02',
+      data: [8, 6, 2, 4, 1, 3, 5], // Values for February 2024
+      borderWidth: 1
+    },
+    {
+      label: '2024-03',
+      data: [10, 5, 8, 9, 11, 7, 6], // Values for March 2024
+      borderWidth: 1
+    },
+    {
+      label: '2024-04',
+      data: [12, 10, 15, 8, 7, 9, 4], // Values for April 2024
+      borderWidth: 1
+    },
+    {
+      label: '2024-05',
+      data: [3, 4, 2, 6, 10, 12, 11], // Values for May 2024
+      borderWidth: 1
+    },
+    {
+      label: '2024-06',
+      data: [5, 7, 3, 12, 9, 11, 10], // Values for June 2024
+      borderWidth: 1
+    }
+  ]
+};
+
+		new Chart(ctx, {
+  type: 'bar',
+  data: data,
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Chart.js Bar Chart'
+      }
+    }
+  },
+});
+</script>
+</html>
