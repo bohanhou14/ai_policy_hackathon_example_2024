@@ -1,15 +1,13 @@
 # 1 
 FROM python:3.7
 
+COPY requirements.txt /
+
+RUN pip3 install -r /requirements.txt
+
 # 2
 RUN pip install Flask gunicorn
 
-# 3
-COPY src/ /app
-WORKDIR /app
+COPY app.py .
 
-# 4
-ENV PORT 8080
-
-# 5
-CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 app:app
+CMD ["gunicorn"  , "-b", "0.0.0.0:8888", "app:app"]
