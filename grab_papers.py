@@ -5,7 +5,10 @@ from tqdm import tqdm
 from pypdf import PdfReader
 from bs4 import BeautifulSoup
 from datetime import datetime
+from data_utils import write_jsonl
 import json
+import argparse
+
 def date_parser(date_string):
     cleaned_date_str = date_string[2:-1]
     parsed_date = datetime.strptime(cleaned_date_str, '%Y%m%d%H%M%S')
@@ -39,14 +42,14 @@ def extract_abstract_to_intro(text):
     else:
         return None  # Return None if no "introduction" section is found
 
-def get_papers():
+def get_papers(output_path):
     r = requests.get('https://raw.githubusercontent.com/hyp1231/awesome-llm-powered-agent/main/README.md')
     lines = r.text.split("\n")
     links = []
     for line in lines:
         if line.find("http") != -1:
             links.append(extract_url(line))
-    f = open("demofile2.txt", "w", encoding="utf-8")
+
     values = []
     for link in tqdm(links, desc="Crawling papers"):
         if link.find("arxiv") != -1:
@@ -86,12 +89,11 @@ def get_papers():
                 # f.write(f'[{datetime.strptime(meta_tag["content"], "%Y/%m/%d").date()}] {abstract["content"]}')
                 # f.write("\n")
                 # f.write("\n")
-    write_to = {
-        "data": values
-    }
-    f.write(json.dumps(write_to, default=str))
-    f.close()
-    return
+
+    write_jsonl(output_path, values)
 
 if __name__ == "__main__":
-    get_papers()
+    parser = argparse.ArgumentParser(description='Grab papers from awesome-llm-powered-agent')
+    parser.add_argument('--output', type=str, default="data/data.jsonl", help='output file')
+    args = parser.parse_args()
+    get_papers(args.output)
